@@ -1,0 +1,45 @@
+{
+  "name": "my-monad-sequence",
+  "version": "0.0.1",
+  "description": "Monad sequence to execute list operation",
+  "main": "src/monad.js",
+  "scripts": {
+    "test": "mocha test/monad.test.js",
+    "doc_readme": "jsdoc2md -v --no-gfm --separators -t ./template_doc/README.hbs ./src/*.js > readme.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.2g-it.ru/tools/monad-sequence.git"
+  },
+  "bugs": {
+    "url": "https://dev.2g-it.ru/"
+  },
+  "keywords": [
+    "monad",
+    "sequence",
+    "promise",
+    "chain"
+  ],
+  "devDependencies": {
+    "chai": "3.5.0",
+    "eslint": "3.4.0",
+    "istanbul": "0.4.1",
+    "mocha": "2.5.3",
+    "should": "9.0.0",
+    "should-sinon": "0.0.5",
+    "sinon": "1.17.4",
+    "winston": "2.3.1"
+  },
+  "dependencies": {
+  },
+  "files": [
+    "src",
+    "changelog.md",
+    "readme.md"
+  ],
+  "engines": {
+    "node": "5.0.0"
+  },
+  "author": "Oleg Rusak",
+  "license": "MIT"
+}
