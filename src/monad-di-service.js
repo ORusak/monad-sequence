@@ -19,12 +19,20 @@ class DIService {
         return /^\[.+\]$/.test(nameExpressionKey)
     }
 
-    //  todo: lib di
+    static _isExpression (nameExpressionKey) {
+        return /^.*=.+$/.test(nameExpressionKey)
+    }
+
     static _getNameNotRequired (nameExpressionKey) {
         const listValueMatch = nameExpressionKey.match(/^\[(.+)\]$/)
-        const INDEX_NAME_PARAMETER = 1
 
-        return listValueMatch[INDEX_NAME_PARAMETER]
+        return listValueMatch[1]
+    }
+
+    static _getValueFromExpression (nameExpressionKey) {
+        const listValueMatch = nameExpressionKey.match(/^.*=(.+)$/)
+
+        return listValueMatch[1]
     }
 
     static _updateScope (scope, strictMode, nameOperation, indexOperation) {
@@ -79,12 +87,25 @@ class DIService {
         return DIService._searchValueInParentScopes(nameKey, parentScope)
     }
 
+    static _convertStringToBaseType (stringValue) {
+
+        return JSON.parse(stringValue);
+    }
+
     static _getValueByName (data, scope, nameAction) {
 
         return function execGetValueByName (nameKey) {
             let nameKeyInit
             let flagNotRequired
 
+            //  *=1
+            if (DIService._isExpression(nameKey)){
+                return DIService._convertStringToBaseType(
+                    DIService._getValueFromExpression(nameKey)
+                )
+            }
+
+            //  [arg]
             if (DIService._isNotRequired(nameKey)) {
                 nameKeyInit = DIService._getNameNotRequired(nameKey)
                 flagNotRequired = true
@@ -109,7 +130,7 @@ class DIService {
             }
 
             //  todo: custom error
-            throw new Error(`Expected for action [${nameAction}] param [${nameKeyInit}] required [${!flagNotRequired}] in ${data}`)
+            throw new Error(`Expected for action [${nameAction}] required [${!flagNotRequired}] param [${nameKeyInit}]`)
         }
     }
 
