@@ -1,5 +1,5 @@
 {
-  "name": "my-monad-sequence",
+  "name": "monad-sequence",
   "version": "0.0.1",
   "description": "Monad sequence to execute list operation",
   "main": "src/monad.js",
