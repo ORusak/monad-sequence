@@ -7,6 +7,8 @@
 
 const srvGeneral = require('./monad-general-service');
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 class DIService {
     static get modeExecutive () {
         return {
@@ -146,7 +148,7 @@ class DIService {
 
             const args = listActionParam.map(DIService._getValueByName(data, scope, action.name))
 
-            return action.bind(null, ...args)
+            return action.bind.apply(action, [null].concat(args))
         }
 
         //  todo: check type action full value array
@@ -157,7 +159,7 @@ class DIService {
 
             const args = listActionParam.map(DIService._getValueByName(data, scope, action.name))
 
-            return actionHandler.bind(null, ...args)
+            return actionHandler.bind.apply(actionHandler, [null].concat(args))
         }
 
         //  base type value

@@ -6,7 +6,7 @@
 //  todo: lib di
 
 class DebugService {
-    static log (option, message, ...data) {
+    static log (option, message, data) {
         if (!option.debug) {
             return null;
         }

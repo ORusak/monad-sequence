@@ -108,7 +108,7 @@ describe('Monad.sequence', () => {
             })
         })
 
-        it.only("init argument action default value", () => {
+        it("init argument action default value", () => {
             const monad = MonadSequence([
                 all({
                     a: 1
