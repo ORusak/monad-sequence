@@ -136,10 +136,10 @@ class DIService {
         }
     }
 
-    static initParameterAction (data, scope, action) {
+    static initParameterAction (data, scope, action, name) {
         if (typeof action === "undefined") {
             //  todo: custom error
-            throw new Error("Expected action not undefined")
+            throw new Error(`Expected action [${name}] not undefined`)
         }
 
         //  operation with list action

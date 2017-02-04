@@ -14,17 +14,21 @@ class AsyncSequenceService {
         const strictMode = settings.codeExecuteMode;
         const handlerError = settings.handlerError;
 
+        //  deep copy init scope data. for resolve collision with parallels change data object in scope.
+        const _initScopeInit = scope ? srvGeneral.objectDeepCopy(scope) : {}
+        const scopeInit = srvDI._initScope(_initScopeInit)
+
         const chainOperation = listOperation.reduce(function calculateSequence (value, operation, index) {
             const valueExecute = value
-                .then(AsyncSequenceService.executeOperation(operation, settings, scope, index))
-                .then(srvDI._updateScope(scope, strictMode, operation.name, index))
+                .then(AsyncSequenceService.executeOperation(operation, settings, scopeInit, index))
+                .then(srvDI._updateScope(scopeInit, strictMode, operation.name, index))
 
             return valueExecute
 
         }, promiseValueInit);
 
         const chainOperationHandlerErrorInit = AsyncSequenceService.applyHandlerErrorCatch(chainOperation,
-            handlerError, settings, scope);
+            handlerError, settings, scopeInit);
 
         return chainOperationHandlerErrorInit;
     }
@@ -34,7 +38,6 @@ class AsyncSequenceService {
         if (srvGeneral._isFunction(operation)) {
             //  action function
             return function executeOperationFunction (data) {
-                const nameOperationParam = srvGeneral._getParamNames(operation)
 
                 return operation(data, scope, srvDI.initParameterAction.bind(null, data, scope))
             }

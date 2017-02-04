@@ -30,6 +30,17 @@ class GeneralService {
 
         return result
     }
+
+    /**
+     * Deep copy object
+     *
+     * @param {object} data -
+     * @return {object} - clone data
+     */
+    static objectDeepCopy (data) {
+
+        return JSON.parse(JSON.stringify(data))
+    }
 }
 
 module.exports = GeneralService;

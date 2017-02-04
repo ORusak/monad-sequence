@@ -3,131 +3,156 @@
 /* global describe, it*/
 
 const MonadSequence = require("./../../src/monad")
-const all = require("./../../src/operation/monad-operation-basic").all
+const all = MonadSequence.operation.all
 
-describe('Monad.sequence', () => {
+describe('Monad.sequence. DI', () => {
 
-    describe("monad DI", () => {
-        function sum (a, b) {
-            const d = b || 5
+    function sum (a, b) {
+        const d = b || 5
 
-            return a + d;
-        }
+        return a + d;
+    }
 
-        function log (result) {
+    function log (result) {
 
-            return result
-        }
+        return result
+    }
 
-        it("init argument action by name", () => {
-            const monad = MonadSequence([
-                all({
-                    a: 1
-                }),
-                all({
-                    b: 2
-                }),
-                all({
-                    result: sum
-                }),
-                all({
-                    message: log
-                })
-            ]);
-
-            monad.execute()
-
-            return monad.value().should.be.eventually.eql({
-                message: 3
+    it("init argument action by name", () => {
+        const monad = MonadSequence([
+            all({
+                a: 1
+            }),
+            all({
+                b: 2
+            }),
+            all({
+                result: sum
+            }),
+            all({
+                message: log
             })
+        ]);
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            message: 3
         })
+    })
 
-        it("throw error if no argument require action by name", () => {
-            const monad = MonadSequence([
-                all({
-                    a: 1,
-                    c: 2
-                }),
-                all({
-                    result: sum
-                }),
-                all({
-                    message: log
-                })
-            ], {
-                handlerError: error => Promise.reject(error)
-            });
-
-            monad.execute()
-
-            return monad.value().should.be.rejectedWith("Expected for action [sum] required [true] param [b]")
-        })
-
-        it("init argument action by name param from scope", () => {
-            const monad = MonadSequence([
-                all({
-                    a: 1,
-                    c: 2
-                }),
-                all({
-                    result: [sum, 'a', 'c']
-                }),
-                all({
-                    message: log
-                })
-            ], {
-                handlerError: error => Promise.reject(error)
-            });
-
-            monad.execute()
-
-            return monad.value().should.be.eventually.eql({
-                message: 3
+    //  todo: show name param
+    it("throw error if no argument require action by name", () => {
+        const monad = MonadSequence([
+            all({
+                a: 1,
+                c: 2
+            }),
+            all({
+                result: sum
+            }),
+            all({
+                message: log
             })
-        })
+        ], {
+            handlerError: error => Promise.reject(error)
+        });
 
-        it("init argument action as not required", () => {
-            const monad = MonadSequence([
-                all({
-                    a: 1
-                }),
-                all({
-                    result: [sum, 'a', '[c]']
-                }),
-                all({
-                    message: log
-                })
-            ], {
-                handlerError: error => Promise.reject(error)
-            });
+        monad.execute()
 
-            monad.execute()
+        return monad.value().should.be.rejectedWith("Expected for action [sum] required [true] param [b]")
+    })
 
-            return monad.value().should.be.eventually.eql({
-                message: 6
+    it("init argument action by name param from scope", () => {
+        const monad = MonadSequence([
+            all({
+                a: 1,
+                c: 2
+            }),
+            all({
+                result: [sum, 'a', 'c']
+            }),
+            all({
+                message: log
             })
+        ], {
+            handlerError: error => Promise.reject(error)
+        });
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            message: 3
         })
+    })
 
-        it("init argument action default value", () => {
-            const monad = MonadSequence([
-                all({
-                    a: 1
-                }),
-                all({
-                    result: [sum, 'a', '[c]=10']
-                }),
-                all({
-                    message: log
-                })
-            ], {
-                handlerError: error => Promise.reject(error)
-            });
+    it("init argument action by name param from scope in custom operation", () => {
+        const monad = MonadSequence([
+            //  call directly action with auto init chain data
+            all({
+                a: 1,
+                c: 2
+            }),
+            function operation2 (data, scope, initValue) {
+                const result = initValue([sum, 'a', 'c'])()
 
-            monad.execute()
-
-            return monad.value().should.be.eventually.eql({
-                message: 11
+                return {
+                    result: result
+                };
+            },
+            all({
+                message: log
             })
+        ])
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            message: 3
+        })
+    })
+
+    it("init argument action as not required", () => {
+        const monad = MonadSequence([
+            all({
+                a: 1
+            }),
+            all({
+                result: [sum, 'a', '[c]']
+            }),
+            all({
+                message: log
+            })
+        ], {
+            handlerError: error => Promise.reject(error)
+        });
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            message: 6
+        })
+    })
+
+    it("init argument action default value", () => {
+        const monad = MonadSequence([
+            all({
+                a: 1
+            }),
+            all({
+                result: [sum, 'a', '[c]=10']
+            }),
+            all({
+                message: log
+            })
+        ], {
+            handlerError: error => Promise.reject(error)
+        });
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            message: 11
         })
     })
 })

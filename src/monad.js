@@ -9,8 +9,9 @@
 //  todo: documentation
 
 const srvAsyncSequence = require('./monad-async-sequence-service');
-const srvDI = require('./monad-di-service');
-const srvDebug = require('./monad-debug-service');
+
+const operationBasic = require("./operation/monad-operation-basic")
+const operationCondition = require("./operation/monad-operation-condition")
 
 function MonadSequence (listOperation, settings) {
     if (typeof this === "undefined") {
@@ -32,12 +33,8 @@ function MonadSequence (listOperation, settings) {
      * @param {object} settingsNew -
      * @param {object} [initScope] -
      */
-    this.execute = function sequence (settingsNew, initScope) {
+    this.execute = function sequence (settingsNew, scope) {
         // srvDebug.log(optionsInit, "[MonadSequence.executeSequence] Execute with data: ", scopeParent, dataValue)
-
-        //  deep copy init scope data. for resolve collision with parallels change data object in scope.
-        const _initScopeInit = initScope ? JSON.parse(JSON.stringify(initScope)) : {}
-        const scope = srvDI._initScope(_initScopeInit)
 
         //  init
         const settingsInit = Object.assign({}, this._settings, settingsNew);
@@ -82,6 +79,11 @@ function MonadSequence (listOperation, settings) {
 MonadSequence.modeExecutive = {
     strict: 'strict',
     normal: 'normal'
+};
+
+MonadSequence.operation = {
+    all: operationBasic.all,
+    race: operationCondition.race
 };
 
 module.exports = MonadSequence

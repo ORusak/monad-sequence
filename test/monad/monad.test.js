@@ -6,7 +6,8 @@ const should = require("should")
 
 const MonadSequence = require("./../../src/monad")
 
-describe('Monad.sequence', () => {
+//  todo: remove level describe('Monad.sequence', () => {
+describe('Monad.sequence. Base behavior and mechanic', () => {
 
     describe('base behavior', () => {
 
@@ -34,7 +35,7 @@ describe('Monad.sequence', () => {
         })
     })
 
-    describe("execute sequence. base mechanic.", () => {
+    describe("base mechanic.", () => {
         //  action
         const addOne = function (value) {
             return value + 1;

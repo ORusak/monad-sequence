@@ -2,9 +2,7 @@
 
 /* global describe, it*/
 
-describe('Monad.sequence', () => {
+describe('Monad.sequence. Execute settings.', () => {
 
-    describe("monad execute settings", () => {
-        //  todo: monad execute settings
-    })
+    //  todo: monad execute settings
 })
