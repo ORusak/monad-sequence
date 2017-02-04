@@ -36,7 +36,10 @@ module.exports.race = function setDataActionOperationRace (dataAction) {
         const listNameAction = Object.keys(dataAction)
         const listActionInit = listNameAction
             .map(srvGeneralPlugin.getObjectValueByKey(dataAction))
-            .map(initParam)
+            .map(function initParamAction (action, index) {
+
+                return initParam(action, listNameAction[index])
+            })
             .map(bindKeyNameToResultAction(listNameAction))
 
         return Promise.race(listActionInit.map(action => action()));

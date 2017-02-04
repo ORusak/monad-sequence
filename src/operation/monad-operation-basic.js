@@ -32,11 +32,15 @@ function processActionsResult (actions) {
 module.exports.all = function setDataActionOperationAll (dataAction) {
 
     return function all (data, scope, initParam) {
-        const listActionInit = Object.keys(dataAction)
+        const listNameAction = Object.keys(dataAction);
+        const listActionInit = listNameAction
             .map(srvGeneralPlugin.getObjectValueByKey(dataAction))
-            .map(initParam)
+            .map(function initParamAction (action, index) {
+
+                return initParam(action, listNameAction[index])
+            })
 
         return Promise.all(listActionInit.map(action => action()))
             .then(processActionsResult(dataAction))
     }
-};
+}
