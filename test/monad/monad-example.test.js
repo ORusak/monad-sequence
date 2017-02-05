@@ -7,7 +7,7 @@ const MonadSequence = require("./../../src/monad")
 const all = MonadSequence.operation.all
 const race = MonadSequence.operation.race
 
-describe('Monad.sequence. Example usage', () => {
+describe.only('Monad.sequence. Example usage', () => {
 
     function handlerError (error) {
 
@@ -73,10 +73,11 @@ describe('Monad.sequence. Example usage', () => {
                 id: id,
                 firstCar: [getFirstCar, "[car1]", "[car2]", "[car3]"]
             })
-        ])
+        ], {
+            id: "mainMonad"
+        })
 
         monad.execute({
-            id: "mainMonad",
             handlerError: handlerError
         })
 

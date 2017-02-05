@@ -143,8 +143,8 @@ class DIService {
         }
 
         //  operation with list action
-        if (srvGeneral._isFunction(action)) {
-            const listActionParam = srvGeneral._getParamNames(action)
+        if (srvGeneral.isFunction(action)) {
+            const listActionParam = srvGeneral.getParamNames(action)
 
             const args = listActionParam.map(DIService._getValueByName(data, scope, action.name))
 
@@ -153,7 +153,7 @@ class DIService {
 
         //  todo: check type action full value array
         //  array syntax [action, 'param1', 'param2']
-        if (Array.isArray(action) && srvGeneral._isFunction(action[0])) {
+        if (Array.isArray(action) && srvGeneral.isFunction(action[0])) {
             const actionHandler = action[0]
             const listActionParam = action.slice(1)
 

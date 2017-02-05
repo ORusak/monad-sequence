@@ -6,7 +6,7 @@
 //  todo: lib di
 
 class GeneralService {
-    static _isFunction (functionToCheck) {
+    static isFunction (functionToCheck) {
         const getType = {};
 
         return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
@@ -18,7 +18,7 @@ class GeneralService {
      * @param {function} func - function
      * @returns {Array} - list argument
      */
-    static _getParamNames (func) {
+    static getParamNames (func) {
         const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
         const ARGUMENT_NAMES = /([^\s,]+)/g;
         const fnStr = func.toString().replace(STRIP_COMMENTS, '');

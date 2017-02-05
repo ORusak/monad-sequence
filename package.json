@@ -5,7 +5,8 @@
   "main": "src/monad.js",
   "scripts": {
     "test": "mocha test/monad.test.js",
-    "doc_readme": "jsdoc2md -v --no-gfm --separators -t ./template_doc/README.hbs ./src/*.js > readme.md"
+    "doc_readme": "jsdoc2md -v --no-gfm --separators -t ./template_doc/README.hbs ./src/*.js > readme.md",
+    "run": "set DEBUG=monad.sequence* && node index"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "winston": "2.3.1"
   },
   "dependencies": {
+    "debug": "^2.6.0"
   },
   "files": [
     "src",

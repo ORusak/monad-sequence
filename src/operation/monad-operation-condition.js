@@ -32,7 +32,7 @@ function bindKeyNameToResultAction (listNameAction) {
 
 module.exports.race = function setDataActionOperationRace (dataAction) {
 
-    return function race (data, scope, initParam) {
+    function race (data, scope, initParam) {
         const listNameAction = Object.keys(dataAction)
         const listActionInit = listNameAction
             .map(srvGeneralPlugin.getObjectValueByKey(dataAction))
@@ -44,4 +44,16 @@ module.exports.race = function setDataActionOperationRace (dataAction) {
 
         return Promise.race(listActionInit.map(action => action()));
     }
+
+    /**
+     * Node js custom inspect
+     *
+     * @return {string} -
+     */
+    race.inspect = function inspectOperationRace () {
+
+        return `Operation All`
+    }
+
+    return race
 };

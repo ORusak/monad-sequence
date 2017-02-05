@@ -29,11 +29,15 @@ describe('Monad.sequence. Exception handling.', () => {
         return Promise.reject(error);
     }
 
-    const monad = MonadSequence([
-        all({
-            value: somethingBreak
-        })
-    ])
+    let monad
+
+    before(() => {
+        monad = MonadSequence([
+            all({
+                value: somethingBreak
+            })
+        ])
+    });
 
     it("not usage handler exception. error not rejected.", () => {
 

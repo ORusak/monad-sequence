@@ -31,7 +31,7 @@ function processActionsResult (actions) {
 
 module.exports.all = function setDataActionOperationAll (dataAction) {
 
-    return function all (data, scope, initParam) {
+    function all (data, scope, initParam) {
         const listNameAction = Object.keys(dataAction);
         const listActionInit = listNameAction
             .map(srvGeneralPlugin.getObjectValueByKey(dataAction))
@@ -43,4 +43,16 @@ module.exports.all = function setDataActionOperationAll (dataAction) {
         return Promise.all(listActionInit.map(action => action()))
             .then(processActionsResult(dataAction))
     }
+
+    /**
+     * Node js custom inspect
+     *
+     * @return {string} -
+     */
+    all.inspect = function inspectOperationAll (depth, opts) {
+
+        return `Operation All`
+    }
+
+    return all
 }

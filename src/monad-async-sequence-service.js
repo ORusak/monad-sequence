@@ -4,6 +4,10 @@
 
 'use strict';
 
+const createDebug = require('debug')
+const debugDetailValue = createDebug("monad:sequence:value")
+const util = require('util')
+
 const srvDI = require('./monad-di-service');
 const srvGeneral = require('./monad-general-service');
 
@@ -20,8 +24,22 @@ class AsyncSequenceService {
 
         const chainOperation = listOperation.reduce(function calculateSequence (value, operation, index) {
             const valueExecute = value
+            //  todo: operation name, index
+                .then(function (data) {
+                    debugDetailValue("          Operation start. Execute: %O", data);
+                    debugDetailValue("          Operation start. Scope value: %O", scopeInit);
+
+                    return data
+                })
                 .then(AsyncSequenceService.executeOperation(operation, settings, scopeInit, index))
                 .then(srvDI._updateScope(scopeInit, strictMode, operation.name, index))
+                //  todo: operation name, index
+                .then(function (data) {
+                    debugDetailValue("          Operation end. Result: %O", data);
+                    debugDetailValue("          Operation end. Scope value: %O", scopeInit);
+
+                    return data
+                })
 
             return valueExecute
 
@@ -35,7 +53,7 @@ class AsyncSequenceService {
 
     static executeOperation (operation, settings, scope, index) {
         //  action primitive type
-        if (srvGeneral._isFunction(operation)) {
+        if (srvGeneral.isFunction(operation)) {
             //  action function
             return function executeOperationFunction (data) {
 
@@ -57,9 +75,6 @@ class AsyncSequenceService {
                 subMonadSequence.execute(settingInheritParentMonad, scope)
 
                 return subMonadSequence.value()
-                    .then(function (data) {
-                        return data
-                    })
             }
         }
 
@@ -69,7 +84,7 @@ class AsyncSequenceService {
     static applyHandlerErrorCatch (chain, handerError, settings, scope) {
         const chainInit = chain.catch(function asyncErrorHandler (error) {
 
-            if (srvGeneral._isFunction(handerError)) {
+            if (srvGeneral.isFunction(handerError)) {
                 return handerError(error, settings, scope);
             }
         })
