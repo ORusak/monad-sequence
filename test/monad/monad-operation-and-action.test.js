@@ -54,16 +54,16 @@ describe('Monad.sequence. Operation and action.', () => {
     it ("operation all. execute action parallel.", () => {
         const monad = MonadSequence([
             all({
-                one: timeout(1000),
-                two: timeout(2000),
+                one: timeout(300),
+                two: timeout(600),
             })
         ])
 
         monad.execute()
 
         return monad.value().should.be.eventually.eql({
-            one: 1000,
-            two: 2000,
+            one: 300,
+            two: 600,
         })
     })
 

@@ -7,7 +7,7 @@ const MonadSequence = require("./../../src/monad")
 const all = MonadSequence.operation.all
 const race = MonadSequence.operation.race
 
-describe.only('Monad.sequence. Example usage', () => {
+describe('Monad.sequence. Example usage', () => {
 
     function handlerError (error) {
 

@@ -144,9 +144,16 @@ class DIService {
 
         //  operation with list action
         if (srvGeneral.isFunction(action)) {
-            const listActionParam = srvGeneral.getParamNames(action)
 
-            const args = listActionParam.map(DIService._getValueByName(data, scope, action.name))
+            let actionFunc = action
+
+            //  support proxy function sinon library
+            if (action.isSinonProxy) {
+                actionFunc = action.prototype.constructor
+            }
+
+            const listActionParam = srvGeneral.getParamNames(actionFunc)
+            const args = listActionParam.map(DIService._getValueByName(data, scope, actionFunc.name))
 
             return action.bind.apply(action, [null].concat(args))
         }
