@@ -4,6 +4,7 @@
 
 const MonadSequence = require("./../../src/monad")
 const all = require("./../../src/operation/monad-operation-basic").all
+const one = require("./../../src/operation/monad-operation-basic").one
 const race = require("./../../src/operation/monad-operation-condition").race
 
 describe('Monad.sequence. Operation and action.', () => {
@@ -64,6 +65,18 @@ describe('Monad.sequence. Operation and action.', () => {
         return monad.value().should.be.eventually.eql({
             one: 300,
             two: 600,
+        })
+    })
+
+    it ("operation one. execute one action with set name property.", () => {
+        const monad = MonadSequence([
+            one(timeout(300), "one")
+        ])
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            one: 300
         })
     })
 

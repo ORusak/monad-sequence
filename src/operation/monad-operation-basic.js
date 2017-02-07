@@ -56,3 +56,29 @@ module.exports.all = function setDataActionOperationAll (dataAction) {
 
     return all
 }
+
+module.exports.one = function setDataActionOperationOne (action, nameProperty) {
+
+    function one (data, scope, initParam) {
+
+        return Promise.resolve(initParam(action, nameProperty)())
+            .then(function processOneActionsResult (result) {
+
+                return {
+                    [nameProperty]: result
+                }
+            })
+    }
+
+    /**
+     * Node js custom inspect
+     *
+     * @return {string} -
+     */
+    one.inspect = function inspectOperationAll (depth, opts) {
+
+        return `Operation One`
+    }
+
+    return one
+}

@@ -192,6 +192,7 @@ MonadSequence.modeExecutive = {
 
 MonadSequence.operation = {
     all: operationBasic.all,
+    one: operationBasic.one,
     race: operationCondition.race
 };
 
