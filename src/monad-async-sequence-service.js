@@ -81,11 +81,11 @@ class AsyncSequenceService {
         throw new Error(`Expect operation [${operation}(${typeof operation})] must be operation function or monad.sequence.`);
     }
 
-    static applyHandlerErrorCatch (chain, handerError, settings, scope) {
+    static applyHandlerErrorCatch (chain, handlerError, settings, scope) {
         const chainInit = chain.catch(function asyncErrorHandler (error) {
 
-            if (srvGeneral.isFunction(handerError)) {
-                return handerError(error, settings, scope);
+            if (srvGeneral.isFunction(handlerError)) {
+                return handlerError(error, settings, scope);
             }
         })
 

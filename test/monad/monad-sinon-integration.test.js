@@ -3,6 +3,7 @@
 /* global describe, it*/
 
 const sinon = require("sinon")
+
 require("should-sinon")
 
 const MonadSequence = require("./../../src/monad")
