@@ -57,7 +57,7 @@ module.exports.all = function setDataActionOperationAll (dataAction) {
     return all
 }
 
-module.exports.one = function setDataActionOperationOne (action, nameProperty) {
+module.exports.one = function setDataActionOperationOne (nameProperty, action) {
 
     function one (data, scope, initParam) {
 

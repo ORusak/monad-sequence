@@ -70,7 +70,7 @@ describe('Monad.sequence. Operation and action.', () => {
 
     it ("operation one. execute one action with set name property.", () => {
         const monad = MonadSequence([
-            one(timeout(300), "one")
+            one("one", timeout(300))
         ])
 
         monad.execute()
