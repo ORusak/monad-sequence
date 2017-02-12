@@ -5,6 +5,7 @@
 'use strict';
 
 const createDebug = require('debug')
+const debug = createDebug("monad:sequence")
 const debugDetailValue = createDebug("monad:sequence:value")
 const util = require('util')
 
@@ -83,6 +84,8 @@ class AsyncSequenceService {
 
     static applyHandlerErrorCatch (chain, handlerError, settings, scope) {
         const chainInit = chain.catch(function asyncErrorHandler (error) {
+            debug("     Error execute operation");
+            debugDetailValue("          Error execute operation. Error: %O. Scope: %O", error, scope);
 
             if (srvGeneral.isFunction(handlerError)) {
                 return handlerError(error, settings, scope);
