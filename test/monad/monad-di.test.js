@@ -155,4 +155,32 @@ describe('Monad.sequence. DI', () => {
             message: 11
         })
     })
+
+    //  this problem solved spread operator, but not support yet all platform
+    it("bind for save context action", () => {
+        function Animal (name) {
+            this.name = name;
+
+            this.getName = function getName () {
+
+                return this.name;
+            }
+        }
+
+        const animal = new Animal ("choo")
+
+        const monad = MonadSequence([
+            all({
+                message: animal.getName.bind(animal)
+            })
+        ], {
+            handlerError: error => Promise.reject(error)
+        });
+
+        monad.execute()
+
+        return monad.value().should.be.eventually.eql({
+            message: "choo"
+        })
+    })
 })
