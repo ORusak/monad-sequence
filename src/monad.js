@@ -40,8 +40,8 @@ const operationCondition = require("./operation/monad-operation-condition")
 
 /**
  *
- * @param [initListOperation] -
- * @param [settings] -
+ * @param {function[]} [initListOperation] -
+ * @param {object} [settings] -
  * @return {MonadSequence} -
  *
  * @constructor
@@ -61,10 +61,7 @@ function MonadSequence (initListOperation, settings) {
      *
      * @return {MonadSequence} -
      */
-    this.execute = function sequence (settingsNew, scope) {
-        // srvDebug.log(optionsInit, "[MonadSequence.executeSequence] Execute with data: ", scopeParent, dataValue)
-
-        //  init
+    this.execute = function execute (settingsNew, scope) {
         const settingsInit = Object.assign({}, this._settings, settingsNew);
 
         this._value = srvAsyncSequence.executeAsyncSequence(this._listOperation, settingsInit, scope);
@@ -126,13 +123,9 @@ function MonadSequence (initListOperation, settings) {
         return Math.floor(Math.random() * 10000000)
     }
 
-    this._getId = function getId (setting) {
-        if (setting && setting.id) {
+    this._getId = function getId (id) {
 
-            return setting.id
-        }
-
-        return this._getUniqueId()
+        return id ? id : this._getUniqueId()
     }
 
     /**
@@ -174,15 +167,15 @@ function MonadSequence (initListOperation, settings) {
         debugDetailValue("          Initializing parameter. List operation: %l", this.getListOperation());
     }
 
-    this._id = this._getId(settings)
+    this._id = this._getId(settings.id)
 
-    debug("Initializing monad.sequence start. Id [%s]", this._id);
+    debug("    Initializing monad.sequence start. Id [%s]", this._id);
 
     //  todo: in debug mode check list operation on integrity
     this._initListOperation(initListOperation)
     this._initSetting(settings)
 
-    debug("Initializing monad.sequence end. Id [%s]", this._id);
+    debug("    Initializing monad.sequence end. Id [%s]", this._id);
 }
 
 MonadSequence.modeExecutive = {

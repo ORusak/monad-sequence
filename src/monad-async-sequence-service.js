@@ -24,11 +24,13 @@ class AsyncSequenceService {
         const scopeInit = srvDI._initScope(_initScopeInit)
 
         const chainOperation = listOperation.reduce(function calculateSequence (value, operation, index) {
+            const nameOperation = operation.inspect() || "Operation noname";
+
             const valueExecute = value
             //  todo: operation name, index
                 .then(function (data) {
-                    debugDetailValue("          Operation start. Execute: %O", data);
-                    debugDetailValue("          Operation start. Scope value: %O", scopeInit);
+                    debugDetailValue(`          ${nameOperation} [${index}] start. Execute: %O`, data);
+                    debugDetailValue(`          ${nameOperation} [${index}] start. Scope value: %O`, scopeInit);
 
                     return data
                 })
@@ -36,8 +38,8 @@ class AsyncSequenceService {
                 .then(srvDI._updateScope(scopeInit, strictMode, operation.name, index))
                 //  todo: operation name, index
                 .then(function (data) {
-                    debugDetailValue("          Operation end. Result: %O", data);
-                    debugDetailValue("          Operation end. Scope value: %O", scopeInit);
+                    debugDetailValue(`          ${nameOperation} [${index}] end. Result: %O`, data);
+                    debugDetailValue(`          ${nameOperation} [${index}] end. Scope value: %O`, scopeInit);
 
                     return data
                 })
