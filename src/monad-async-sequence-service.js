@@ -24,7 +24,7 @@ class AsyncSequenceService {
         const scopeInit = srvDI._initScope(_initScopeInit)
 
         const chainOperation = listOperation.reduce(function calculateSequence (value, operation, index) {
-            const nameOperation = operation.inspect() || "Operation noname";
+            const nameOperation = operation.inspect ? operation.inspect() : operation.name;
 
             const valueExecute = value
             //  todo: operation name, index
