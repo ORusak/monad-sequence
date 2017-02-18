@@ -37,19 +37,20 @@ const srvAsyncSequence = require('./monad-async-sequence-service');
 
 const operationBasic = require("./operation/monad-operation-basic")
 const operationCondition = require("./operation/monad-operation-condition")
+const operationIterable = require("./operation/monad-operation-iteration")
 
 /**
  *
- * @param {function[]} [initListOperation] -
+ * @param {function[]} [listOperation] -
  * @param {object} [settings] -
  * @return {MonadSequence} -
  *
  * @constructor
  */
-function MonadSequence (initListOperation, settings) {
+function MonadSequence (listOperation, settings) {
     if (typeof this === "undefined") {
 
-        return new MonadSequence(initListOperation, settings);
+        return new MonadSequence(listOperation, settings);
     }
 
     /**
@@ -71,12 +72,12 @@ function MonadSequence (initListOperation, settings) {
 
     this.setSettingsByDefault = function setSettingsByDefault () {
 
-        this._settings = Object.assign({}, {
+        this._settings = {
             codeExecuteMode: MonadSequence.modeExecutive.normal,
             debug: false,
             id: this._id,
             handlerError: null
-        });
+        };
     }
 
     this.setSettings = function setSettings (settingsNew) {
@@ -123,9 +124,13 @@ function MonadSequence (initListOperation, settings) {
         return Math.floor(Math.random() * 10000000)
     }
 
-    this._getId = function getId (id) {
+    this._getId = function getId (settings) {
+        if (settings && settings.id) {
 
-        return id ? id : this._getUniqueId()
+            return settings.id
+        }
+
+        return this._getUniqueId()
     }
 
     /**
@@ -138,15 +143,14 @@ function MonadSequence (initListOperation, settings) {
     this._initSetting = function _initSetting (settingsInit) {
         debug("    Initializing parameter. Settings: type [%s]", typeof settingsInit);
 
-        if (!settingsInit) {
-            debug("    Initializing parameter. Set setting by default.");
+        this.setSettingsByDefault();
 
-            this.setSettingsByDefault();
-        } else {
+        if (settingsInit) {
             debug("    Initializing parameter. Set setting assign default and parameter.");
 
-            this.setSettingsByDefault();
             this.setSettings(settingsInit);
+        } else {
+            debug("    Initializing parameter. Set setting by default.");
         }
         debugDetailValue("          Initializing parameter. Setting: %o", this.getSettings());
     }
@@ -167,12 +171,12 @@ function MonadSequence (initListOperation, settings) {
         debugDetailValue("          Initializing parameter. List operation: %l", this.getListOperation());
     }
 
-    this._id = this._getId(settings.id)
+    this._id = this._getId(settings)
 
     debug("    Initializing monad.sequence start. Id [%s]", this._id);
 
     //  todo: in debug mode check list operation on integrity
-    this._initListOperation(initListOperation)
+    this._initListOperation(listOperation)
     this._initSetting(settings)
 
     debug("    Initializing monad.sequence end. Id [%s]", this._id);
@@ -186,7 +190,8 @@ MonadSequence.modeExecutive = {
 MonadSequence.operation = {
     all: operationBasic.all,
     one: operationBasic.one,
-    race: operationCondition.race
+    race: operationCondition.race,
+    map: operationIterable.map
 };
 
 module.exports = MonadSequence
