@@ -164,7 +164,7 @@ class DIService {
             const actionHandler = action[0]
             const listActionParam = action.slice(1)
 
-            const args = listActionParam.map(DIService._getValueByName(data, scope, action.name))
+            const args = listActionParam.map(DIService._getValueByName(data, scope, actionHandler.name))
 
             return actionHandler.bind.apply(actionHandler, [null].concat(args))
         }
