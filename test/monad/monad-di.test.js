@@ -184,4 +184,19 @@ describe('Monad.sequence. DI', () => {
             message: "choo"
         })
     })
+
+    it("ban return undefined value from action", () => {
+
+        return MonadSequence([
+            one("foo", function actionBroken () {
+
+                return undefined
+            })
+        ], {
+            handlerError: error => Promise.reject(error)
+        })
+            .execute()
+            .value()
+            .should.be.rejectedWith("Operation Operation One [0] expect [foo] action result value not equal undefined.")
+    })
 })

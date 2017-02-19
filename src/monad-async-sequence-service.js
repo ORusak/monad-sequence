@@ -43,6 +43,7 @@ class AsyncSequenceService {
 
                     return data
                 })
+                .then(AsyncSequenceService.validateData(nameOperation, index))
 
             return valueExecute
 
@@ -95,6 +96,32 @@ class AsyncSequenceService {
         })
 
         return chainInit;
+    }
+
+    /**
+     * Check operation result data. Not value equal undefined.
+     * Require set returned value in action directly in same type or null.
+     * With action returned undefined something went wrong.
+     *
+     * @param {object} data -
+     *
+     * @return {object} -
+     */
+    static validateData (nameOperation, index) {
+
+        return function execValidateData (data) {
+
+            Object.keys(data).forEach(function validateDataValue (key) {
+
+                if (typeof data[key] === "undefined") {
+                    debugDetailValue(`          ${nameOperation} [${index}] end. Result: %O`, data);
+
+                    throw new Error(`Operation ${nameOperation} [${index}] expect [${key}] action result value not equal undefined.`);
+                }
+            })
+
+            return data
+        }
     }
 }
 
