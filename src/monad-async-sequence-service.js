@@ -59,7 +59,7 @@ class AsyncSequenceService {
             //  action function
             return function executeOperationFunction (data) {
 
-                return operation(data, scope, srvDI.initParameterAction.bind(null, data, scope))
+                return operation(data, scope, srvDI.initParameterAction.bind(null, data, scope), settings)
             }
         }
 

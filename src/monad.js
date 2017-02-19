@@ -38,6 +38,7 @@ const srvAsyncSequence = require('./monad-async-sequence-service');
 const operationBasic = require("./operation/monad-operation-basic")
 const operationCondition = require("./operation/monad-operation-condition")
 const operationIterable = require("./operation/monad-operation-iteration")
+const operationMonad = require("./operation/monad-operation-monad-execute")
 
 /**
  *
@@ -191,7 +192,9 @@ MonadSequence.operation = {
     all: operationBasic.all,
     one: operationBasic.one,
     race: operationCondition.race,
-    map: operationIterable.map
+    map: operationIterable.map,
+    mapFactory: operationIterable.mapFactory,
+    monad: operationMonad.monad
 };
 
 module.exports = MonadSequence
