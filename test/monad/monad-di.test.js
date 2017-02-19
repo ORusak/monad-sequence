@@ -4,6 +4,7 @@
 
 const MonadSequence = require("./../../src/monad")
 const all = MonadSequence.operation.all
+const one = MonadSequence.operation.one
 
 describe('Monad.sequence. DI', () => {
 
@@ -134,26 +135,26 @@ describe('Monad.sequence. DI', () => {
         })
     })
 
-    it("init argument action default value", () => {
-        const monad = MonadSequence([
+    it("init argument action. set value directly without set in scope.", () => {
+
+        return MonadSequence([
+            one("a", 1),
             all({
-                a: 1
+                "result": [sum, 'a', '[c]=10'],
+                //  override a value
+                "resultToo": [sum, 'a=2', '[c]=10']
             }),
-            all({
-                result: [sum, 'a', '[c]=10']
-            }),
-            all({
-                message: log
+            one("message", function log (result, resultToo) {
+
+                return result + resultToo
             })
         ], {
             handlerError: error => Promise.reject(error)
-        });
-
-        monad.execute()
-
-        return monad.value().should.be.eventually.eql({
-            message: 11
         })
+            .execute()
+            .value().should.be.eventually.eql({
+                message: 23
+            })
     })
 
     //  this problem solved spread operator, but not support yet all platform
