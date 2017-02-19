@@ -30,7 +30,6 @@ class AsyncSequenceService {
             //  todo: operation name, index
                 .then(function (data) {
                     debugDetailValue(`          ${nameOperation} [${index}] start. Execute: %O`, data);
-                    debugDetailValue(`          ${nameOperation} [${index}] start. Scope value: %O`, scopeInit);
 
                     return data
                 })
@@ -39,7 +38,6 @@ class AsyncSequenceService {
                 //  todo: operation name, index
                 .then(function (data) {
                     debugDetailValue(`          ${nameOperation} [${index}] end. Result: %O`, data);
-                    debugDetailValue(`          ${nameOperation} [${index}] end. Scope value: %O`, scopeInit);
 
                     return data
                 })
@@ -103,12 +101,18 @@ class AsyncSequenceService {
      * Require set returned value in action directly in same type or null.
      * With action returned undefined something went wrong.
      *
-     * @param {object} data -
+     * @param {string} nameOperation -
+     * @param {number} index -
      *
-     * @return {object} -
+     * @return {function} - callback
      */
     static validateData (nameOperation, index) {
 
+        /**
+         * @param {object} data -
+         *
+         * @return {object} -
+         */
         return function execValidateData (data) {
 
             Object.keys(data).forEach(function validateDataValue (key) {
