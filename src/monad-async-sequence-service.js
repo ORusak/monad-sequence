@@ -114,7 +114,7 @@ class AsyncSequenceService {
          * @return {object} -
          */
         return function execValidateData (data) {
-            if (!data || typeof data !=== "object") {
+            if (!data || typeof data !== "object") {
                 return data
             }
 
