@@ -39,14 +39,14 @@ describe('Monad.sequence. Exception handling.', () => {
         ])
     });
 
-    it("not usage handler exception. error not rejected.", () => {
+    it("not usage handler exception. error rejected.", () => {
 
         monad.execute({
             id: "mainMonad",
             handlerError: null
         })
 
-        return monad.value().should.be.fulfilled()
+        return monad.value().should.be.rejectedWith('boom!')
     })
 
     it("usage handler exception", () => {
