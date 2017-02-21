@@ -18,29 +18,30 @@
 module.exports.monad = function setDataActionOperationMonad (listReturnProperty, monadSequence) {
 
     function monadExecute (data, scope, initParam, settings) {
-        if (Object.getPrototypeOf(monadSequence).constructor.name === "MonadSequence") {
-
-            const settingInheritParentMonad = {
-                codeExecuteMode: settings.codeExecuteMode,
-                debug: settings.debug
-            }
-
-            return monadSequence
-                .execute(settingInheritParentMonad, scope)
-                .value()
-                .then(function processOneActionsResult (result) {
-
-                    return listReturnProperty.reduce(function reducePropertyToData (data, key) {
-                        if (typeof result[key] === "undefined") {
-                            throw new Error(`[OperationMonad] Expect in result execute monad key [${key}] value not undefined`)
-                        }
-
-                        data[key] = result[key]
-
-                        return data
-                    }, {})
-                })
+        if (Object.getPrototypeOf(monadSequence).constructor.name !== "MonadSequence") {
+            throw new Error("Expect monadSequence as not null and type MonadSequence");
         }
+
+        const settingInheritParentMonad = {
+            codeExecuteMode: settings.codeExecuteMode,
+            debug: settings.debug
+        }
+
+        return monadSequence
+            .execute(settingInheritParentMonad, scope)
+            .value()
+            .then(function processOneActionsResult (result) {
+
+                return listReturnProperty.reduce(function reducePropertyToData (data, key) {
+                    if (typeof result[key] === "undefined") {
+                        throw new Error(`[OperationMonad] Expect in result execute monad key [${key}] value not undefined`)
+                    }
+
+                    data[key] = result[key]
+
+                    return data
+                }, {})
+            })
     }
 
     /**
