@@ -91,6 +91,8 @@ class AsyncSequenceService {
             if (srvGeneral.isFunction(handlerError)) {
                 return handlerError(error, settings, scope);
             }
+            
+            return Promise.reject(error);
         })
 
         return chainInit;
