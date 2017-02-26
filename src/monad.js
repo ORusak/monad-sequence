@@ -39,6 +39,7 @@ const operationBasic = require("./operation/monad-operation-basic")
 const operationCondition = require("./operation/monad-operation-condition")
 const operationIterable = require("./operation/monad-operation-iteration")
 const operationMonad = require("./operation/monad-operation-monad-execute")
+const operationLog = require("./operation/monad-operation-log")
 
 /**
  *
@@ -194,7 +195,8 @@ MonadSequence.operation = {
     race: operationCondition.race,
     map: operationIterable.map,
     mapFactory: operationIterable.mapFactory,
-    monad: operationMonad.monad
+    monad: operationMonad.monad,
+    log: operationLog.log
 };
 
 module.exports = MonadSequence
