@@ -1,7 +1,7 @@
 {
   "name": "monad-sequence-promise",
   "version": "0.0.1",
-  "description": "Monad sequence to execute list operation",
+  "description": "Monad sequence to execute async list operation via promise",
   "main": "src/monad.js",
   "scripts": {
     "test": "mocha test/monad.test.js",

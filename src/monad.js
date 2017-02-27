@@ -189,6 +189,7 @@ MonadSequence.modeExecutive = {
     normal: 'normal'
 };
 
+//  todo: do through export
 MonadSequence.operation = {
     all: operationBasic.all,
     one: operationBasic.one,
