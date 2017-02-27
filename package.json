@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.2g-it.ru/tools/monad-sequence.git"
+    "url": "https://github.com/ORusak/monad-sequence.git"
   },
   "bugs": {
-    "url": "https://dev.2g-it.ru/"
+    "url": "https://github.com/ORusak/monad-sequence/issues"
   },
   "keywords": [
     "monad",
