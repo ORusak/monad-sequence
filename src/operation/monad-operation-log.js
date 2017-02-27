@@ -25,8 +25,11 @@ function resolveValueByName (listName, data) {
 module.exports.log = function logFactory (logger) {
 
     function logRegistration () {
-
-        const [levelLogger, message, ...templateProp] = arguments;
+        //  todo: const [levelLogger, message, ...templateProp] = arguments;
+        const _arguments = Array.prototype.slice.call(arguments),
+            levelLogger = _arguments[0],
+            message = _arguments[1],
+            templateProp = _arguments.slice(2);
         const lastArgument = templateProp[templateProp.length-1]
         const isLastArgumentMeta = srvMonadGeneral.isFunction(lastArgument)
         const listPropTemplate = isLastArgumentMeta
