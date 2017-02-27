@@ -1,28 +1,46 @@
 # Description
-Status: development.
+Status: documentation.
 
 Pattern functional programming monad sequence. Monad provide description and execute chain operation contain same
 function.
 
-# Requirement
-* declarate description
-* handling exception
-* add additional behavior via plugin: logging, transform data
-* add DI pass params function from past operation, check correctness and completeness required arguments
-* exeute
+Monad wrap promise chain control and extend it opportunities execute.
 
-Demo:
+* [Introduction](#introduction)
+* [Why?](#why)
+* [API](#api)
+* [Usage Patterns](#usage-patterns)
+* [Roadmap](#roadmap)
 
-# Features
-*
+# Introduction
+```bash
+$ npm install monad-sequence-promise
+```
 
-# Roadmap
-*
+# Why
+* Abstracting and hiding sequence execution mechanisms;
+* Control executive sequence;
+* Control calls service functions: defined, arguments, returning value;
+* Transfer the extended number of parameters between service functions;
+* Mixin additional functionality without changing the service functions, keeping them clean;
+* Debugging execution sequence through logging.
 
-# API tag input
+# Usage Patterns
+* Sequence sequence shares by *operation*. Operation group calculation which result need next operation.
+* Operation shares by *action*. Action - service function usually pure.
+
+Example usage, temporal, look unit test.
+
+# API
+## Monad
 {{#module name="MonadSequence"}}
     {{>body~}}
     {{>member-index~}}
     {{>separator~}}
     {{>members~}}
 {{/module}}
+
+## Operation
+
+# Roadmap
+*

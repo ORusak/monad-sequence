@@ -4,8 +4,8 @@
   "description": "Monad sequence to execute async list operation via promise",
   "main": "src/monad.js",
   "scripts": {
-    "test": "mocha test/monad.test.js",
-    "doc_readme": "jsdoc2md -v --no-gfm --separators -t ./template_doc/README.hbs ./src/*.js > readme.md",
+    "test": "mocha test/monad/*.test.js",
+    "doc_readme": "jsdoc2md -v --no-gfm --separators -t ./jsdoc2md/README.hbs ./src/*.js > readme.md",
     "run": "set DEBUG=monad.sequence* && node index"
   },
   "repository": {
@@ -29,7 +29,9 @@
     "should": "9.0.0",
     "should-sinon": "0.0.5",
     "sinon": "1.17.4",
-    "winston": "2.3.1"
+    "winston": "2.3.1",
+    "jsdoc": "~3.4.0",
+    "jsdoc-to-markdown": "~1.0.3"
   },
   "dependencies": {
     "debug": "2.6.0"
