@@ -19,9 +19,7 @@ class AsyncSequenceService {
         const strictMode = settings.codeExecuteMode;
         const handlerError = settings.handlerError;
 
-        //  deep copy init scope data. for resolve collision with parallels change data object in scope.
-        const _initScopeInit = scope ? srvGeneral.objectDeepCopy(scope) : {}
-        const scopeInit = srvDI._initScope(_initScopeInit)
+        const scopeInit = srvDI._initScope(scope)
 
         const chainOperation = listOperation.reduce(function calculateSequence (value, operation, index) {
             const nameOperation = operation.inspect ? operation.inspect() : operation.name;

@@ -62,14 +62,16 @@ class DIService {
         }
     }
 
-    static _initScope (parentScope) {
+    static _initScope (scopeParent) {
+        //  todo: deep copy init scope data. for resolve collision with parallels change data object in scope.
+        const scopeParentInit = scopeParent ? scopeParent : {}
         const scope = {}
 
         Object.defineProperty(scope, '_parent', {
             enumerable: false,
             configurable: false,
             writable: false,
-            value: parentScope
+            value: scopeParentInit
         })
 
         return scope
