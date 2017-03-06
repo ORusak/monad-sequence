@@ -1,8 +1,5 @@
-# Legend
-* Feature - 
-* Bug - 
-* Break - 
+# Legend Break.Feature.Fix
 
 # Change log
-## 0.0.1
-** Feature.
+## 0.0.3
+** Fix. Get value from scope in sub-sub monad.

@@ -1,6 +1,6 @@
 {
   "name": "monad-sequence-promise",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Monad sequence to execute async list operation via promise",
   "main": "src/monad.js",
   "scripts": {
