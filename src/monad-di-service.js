@@ -143,6 +143,8 @@ class DIService {
             //  todo: custom error
             throw new Error(`Expected action [${name}] not undefined`)
         }
+        
+        const dataInit = data || {}
 
         //  operation with list action
         if (srvGeneral.isFunction(action)) {
@@ -155,7 +157,7 @@ class DIService {
             }
 
             const listActionParam = srvGeneral.getParamNames(actionFunc)
-            const args = listActionParam.map(DIService._getValueByName(data, scope, actionFunc.name))
+            const args = listActionParam.map(DIService._getValueByName(dataInit, scope, actionFunc.name))
 
             return action.bind.apply(action, [null].concat(args))
         }
@@ -166,7 +168,7 @@ class DIService {
             const actionHandler = action[0]
             const listActionParam = action.slice(1)
 
-            const args = listActionParam.map(DIService._getValueByName(data, scope, actionHandler.name))
+            const args = listActionParam.map(DIService._getValueByName(dataInit, scope, actionHandler.name))
 
             return actionHandler.bind.apply(actionHandler, [null].concat(args))
         }
